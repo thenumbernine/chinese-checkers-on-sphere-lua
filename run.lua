@@ -225,7 +225,7 @@ function Subdiv:init()
 	self.vs = vector(vec3f)
 	self.qs = vector(vec4x4f)
 end
-	
+
 function Subdiv:findOrCreateVertex(v)
 	local key = vtxKey(v)
 	local i = self.vtxForKey[key]
@@ -266,7 +266,7 @@ function Subdiv:buildMeshInfo()
 		-- sort by angle
 		-- and find the one opposite this
 		local xform = self.qs.v[vertexIndex-1]
-		
+
 		-- TODO this would look better if qs was a 4x4 col-major, which I do define in numo9, I could put in vec-ffi ...
 		local ex = vec3f(xform.x.x, xform.y.x, xform.z.x)
 		local ey = vec3f(xform.x.y, xform.y.y, xform.z.y)
@@ -896,7 +896,7 @@ void main() {
 	for _,shape in ipairs(shapes) do
 		for subdivIndex=0,#shape.subdivs do
 			local subdiv = shape.subdivs[subdivIndex] or shape
-			
+
 			subdiv.vtxGPU = GLArrayBuffer{
 				dim = 3,
 				data = subdiv.vs.v,
@@ -913,7 +913,7 @@ void main() {
 					},
 				}
 			end)
-			
+
 			local lineIndexes = table()
 			local linesSoFar = {}
 			for _,face in ipairs(subdiv.faces) do
@@ -1154,13 +1154,13 @@ function App:update(...)
 
 	-- show neighborhood
 	do
-		local vi = mouseOverShapeID.z 
+		local vi = mouseOverShapeID.z
 		if vi >= 0 and vi < #subdiv.vs then
 			gl.glEnable(gl.GL_BLEND)
 			gl.glBlendFunc(gl.GL_DST_COLOR, gl.GL_ZERO)
 			nbhdVtxIndexes = subdiv.vtxNbhds[vi]
 			for _,vi in ipairs(nbhdVtxIndexes) do
-				
+
 				self.modelMat
 					--:setIdent()
 					--:setTranslate(subdiv.vs.v[vi-1]:unpack())
@@ -1222,10 +1222,10 @@ function App:updateGUI()
 			ig.ImGuiWindowFlags_Tooltip
 		)
 	)
-	
+
 	local shape = shapes[vars.shapeIndex]
 	local subdiv = shape.subdivs[vars.subdivIndex] or shape
-	local vi = mouseOverShapeID.z 
+	local vi = mouseOverShapeID.z
 	local nbhdVtxIndexes = subdiv and subdiv.vtxNbhds[vi]
 
 	ig.igText(
